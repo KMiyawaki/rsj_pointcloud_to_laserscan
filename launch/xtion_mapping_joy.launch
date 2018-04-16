@@ -1,0 +1,33 @@
+<launch>
+	<arg name="port_urg" default="/dev/serial/by-id/usb-Hokuyo_Data_Flex_for_USB_URG-Series_USB_Driver-if00" />
+	<arg name="port_robot" default="/dev/serial/by-id/usb-T-frog_project_T-frog_Driver-if00" />
+	<arg name="robot_param" />
+	
+	<node pkg="tf" type="static_transform_publisher" name="stp_laser" args="0 0 0 0 0 0 base_link camera_link 100" />
+
+	<node pkg="ypspur_ros" type="ypspur_ros" name="ypspur_ros" respawn="true">
+		<param name="port" value="$(arg port_robot)" />
+		<param name="param_file" value="$(arg robot_param)" />
+	</node>
+	<include file="$(find rsj_pointcloud_to_laserscan)/launch/rsj_pointcloud_to_laserscan.launch" />
+
+	<node pkg="gmapping" type="slam_gmapping" name="mapper">
+		<param name="maxUrange" value="4.0" type="double" />
+		<param name="xmax" value="20" type="double" />
+		<param name="ymax" value="20" type="double" />
+		<param name="xmin" value="-20" type="double" />
+		<param name="ymin" value="-20" type="double" />
+	</node>
+
+    <node pkg="teleop_twist_joy" name="teleop_twist_joy" type="teleop_node">
+      <rosparam command="load" file="$(find rsj_pointcloud_to_laserscan)/config/joy.yaml" />
+	  <remap from="/cmd_vel" to="/ypspur_ros/cmd_vel" />
+    </node>
+
+	<node pkg="joy" type="joy_node" name="joy_node">
+      <param name="dev" value="/dev/input/js0" />
+      <param name="deadzone" value="0.1" />
+      <param name="autorepeat_rate" value="20" />
+    </node>
+	<node pkg="rviz" type="rviz" args="-d '$(find rsj_seminar_navigation)/config/rviz/mapping.rviz'" name="visualizer" respawn="true" />
+</launch>
