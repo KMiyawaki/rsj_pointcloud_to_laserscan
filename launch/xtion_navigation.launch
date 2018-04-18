@@ -1,6 +1,7 @@
 <launch>
 	<arg name="port_robot" default="/dev/serial/by-id/usb-T-frog_project_T-frog_Driver-if00" />
 	<arg name="robot_param" />
+	<arg name="rviz_conf" default="$(find rsj_seminar_navigation)/config/rviz/navigation.rviz"/>
 	<arg name="map_file" default="/home/$(env USER)/maps/map.yaml" />
 	
 	<node pkg="tf" type="static_transform_publisher" name="stp_laser" args="0 0 0 0 0 0 base_link camera_link 100" />
@@ -40,5 +41,5 @@
 		<remap from="/cmd_vel" to="/ypspur_ros/cmd_vel" />
 	</node>
 		
-	<node pkg="rviz" type="rviz" args="-d '$(find rsj_seminar_navigation)/config/rviz/navigation.rviz'" name="visualizer" respawn="true" />
+	<node pkg="rviz" type="rviz" args="-d '$(arg rviz_conf)'" name="visualizer" respawn="true" />
 </launch>
