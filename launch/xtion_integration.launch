@@ -1,0 +1,12 @@
+<launch>
+  <arg name="port_robot" default="/dev/serial/by-id/usb-T-frog_project_T-frog_Driver-if00" />
+  <arg name="robot_param" />
+  <arg name="rviz_conf" default="$(find rsj_pointcloud_to_laserscan)/config/rviz/view_navigation.rviz"/>
+  <arg name="map_file" default="/home/$(env USER)/maps/map.yaml" />
+  <include file="$(find rsj_pointcloud_to_laserscan)/launch/xtion_navigation.launch">
+    <arg name="port_robot" value="$(arg port_robot)" />
+    <arg name="robot_param" value="$(arg robot_param)" />
+    <arg name="rviz_conf" value="$(arg rviz_conf)" />
+    <arg name="map_file" value="$(arg map_file)" />
+  </include>
+</launch>
