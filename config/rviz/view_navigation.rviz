@@ -317,14 +317,14 @@ Visualization Manager:
       Size (Pixels): 1
       Size (m): 0.00999999978
       Style: Points
-      Topic: /rsj_pointcloud_test_node/voxel
+      Topic: /voxel
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
     - Class: rviz/MarkerArray
       Enabled: true
-      Marker Topic: /rsj_pointcloud_test_node/clusters
+      Marker Topic: /clusters
       Name: MarkerArray
       Namespaces:
         pcl_clusters: true
